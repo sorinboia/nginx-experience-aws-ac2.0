@@ -1,0 +1,401 @@
+{
+	"info": {
+		"_postman_id": "5bc2fd9a-5b95-4824-ad1d-add3688b2dbb",
+		"name": "Controller Arcadia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Log in to NGINX Controller",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"credentials\": {\n        \"type\": \"BASIC\",\n        \"username\": \"s@s.com\",\n        \"password\": \"sorin2019\"\n    }\n}"
+				},
+				"url": {
+					"raw": "https://{{controller_ip}}/api/v1/platform/login",
+					"protocol": "https",
+					"host": [
+						"{{controller_ip}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"platform",
+						"login"
+					]
+				},
+				"description": "Logs in to the NGINX Controller platform and returns the user account's authentication cookie.\n\nThe session ID is returned in an authentication cookie named `session`. You must include this session ID in the request header for all subsequent requests to authenticate to the platform.\n"
+			},
+			"response": [
+				{
+					"name": "Bad input parameter, or possibly a bad URI. Check the input for typos and try again.\n",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"credentials\": {\n        \"type\": \"<string>\",\n        \"username\": \"<string>\",\n        \"password\": \"<string>\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/platform/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"platform",
+								"login"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"message\": \"Resource cannot be found\",\n \"code\": 1234567,\n \"details\": [\n  {\n   \"description\": \"App component `foo` could not be found\"\n  },\n  {\n   \"description\": \"App component `foo` could not be found\"\n  }\n ]\n}"
+				},
+				{
+					"name": "The request cannot be processed because of an internal server error.\n",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"credentials\": {\n        \"type\": \"<string>\",\n        \"username\": \"<string>\",\n        \"password\": \"<string>\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/platform/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"platform",
+								"login"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"message\": \"Resource cannot be found\",\n \"code\": 1234567,\n \"details\": [\n  {\n   \"description\": \"App component `foo` could not be found\"\n  },\n  {\n   \"description\": \"App component `foo` could not be found\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Wrong username and/or password.\n",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"credentials\": {\n        \"type\": \"<string>\",\n        \"username\": \"<string>\",\n        \"password\": \"<string>\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/platform/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"platform",
+								"login"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"message\": \"Resource cannot be found\",\n \"code\": 1234567,\n \"details\": [\n  {\n   \"description\": \"App component `foo` could not be found\"\n  },\n  {\n   \"description\": \"App component `foo` could not be found\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Successfully authenticated.\n",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"credentials\": {\n        \"type\": \"<string>\",\n        \"username\": \"<string>\",\n        \"password\": \"<string>\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/platform/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"platform",
+								"login"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Set-Cookie",
+							"value": "session=.eJwlzjEOwzAIQNG7MGcA22DIZSKbgNI1aaaqd2-kLn96w; HttpOnly; Secure; Path=/"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Create Arcadia OpenAPI Spec",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"metadata\": {\r\n        \"name\": \"arcadia-api\",\r\n        \"displayName\": \"Arcadia API\",\r\n        \"description\": \"Arcadia API Definition\",\r\n        \"tags\": []\r\n    },\r\n    \"desiredState\": {\r\n        \"spec\": {\r\n            \"openapi\": \"3.0.0\",\r\n            \"info\": {\r\n                \"description\": \"Arcadia OpenAPI\",\r\n                \"title\": \"F5Forum\",\r\n                \"version\": \"1.0.0\"\r\n            },\r\n            \"paths\": {\r\n                \"/api/rest/execute_money_transfer.php\": {\r\n                    \"post\": {\r\n                        \"summary\": \"Transfer money to a friend\",\r\n                        \"parameters\": [\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"amount\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"account\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"string\",\r\n                                \"name\": \"currency\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"string\",\r\n                                \"name\": \"friend\",\r\n                                \"required\": true\r\n                            }\r\n                        ],\r\n                        \"responses\": {\r\n                            \"200\": {\r\n                                \"description\": \"200 response\"\r\n                            }\r\n                        }\r\n                    }\r\n                },\r\n                \"/trading/rest/buy_stocks.php\": {\r\n                    \"post\": {\r\n                        \"summary\": \"Add stocks to your portfolio\",\r\n                        \"parameters\": [\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"trans_value\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"qty\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"string\",\r\n                                \"name\": \"company\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"string\",\r\n                                \"name\": \"action\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"stock_price\",\r\n                                \"required\": true\r\n                            }\r\n                        ],\r\n                        \"responses\": {\r\n                            \"200\": {\r\n                                \"description\": \"200 response\"\r\n                            }\r\n                        }\r\n                    }\r\n                },\r\n                \"/trading/rest/sell_stocks.php\": {\r\n                    \"post\": {\r\n                        \"summary\": \"Sell stocks that you own\",\r\n                        \"parameters\": [\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"trans_value\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"qty\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"string\",\r\n                                \"name\": \"company\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"string\",\r\n                                \"name\": \"action\",\r\n                                \"required\": true\r\n                            },\r\n                            {\r\n                                \"in\": \"query\",\r\n                                \"type\": \"integer\",\r\n                                \"name\": \"stock_price\",\r\n                                \"required\": true\r\n                            }\r\n                        ],\r\n                        \"responses\": {\r\n                            \"200\": {\r\n                                \"description\": \"200 response\"\r\n                            }\r\n                        }\r\n                    }\r\n                },\r\n                \"/trading/transactions.php\": {\r\n                    \"get\": {\r\n                        \"summary\": \"Get the latests transactions that have happened\",\r\n                        \"responses\": {\r\n                            \"200\": {\r\n                                \"description\": \"200 response\",\r\n                                \"examples\": {\r\n                                    \"application/json\": \"{\\\"example\\\" : \\\"value\\\"}\"\r\n                                }\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"currentStatus\": {}\r\n}"
+				},
+				"url": {
+					"raw": "https://{{controller_ip}}/api/v1/services/api-definitions/:apiDefinitionName/oas-config",
+					"protocol": "https",
+					"host": [
+						"{{controller_ip}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"api-definitions",
+						":apiDefinitionName",
+						"oas-config"
+					],
+					"variable": [
+						{
+							"key": "apiDefinitionName",
+							"value": "arcadia-api"
+						}
+					]
+				},
+				"description": "Creates an API Definition from a JSON-formatted OpenAPI (OAI) Spec, or updates an existing API Definition resource using the uploaded OAI spec.\n"
+			},
+			"response": [
+				{
+					"name": "Bad input parameter, or possibly a bad URI. Check the input for typos and verify that the OAI spec contains valid JSON, then try again.",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/metadata not found in the api spec\"\n    },\n    \"desiredState\": {\n        \"spec\": \"<object>\"\n    },\n    \"currentStatus\": {\n        \"state\": {\n            \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/currentStatus/properties/state not found in the api spec\"\n        },\n        \"spec\": \"<object>\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/services/api-definitions/:apiDefinitionName/oas-config",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"services",
+								"api-definitions",
+								":apiDefinitionName",
+								"oas-config"
+							],
+							"variable": [
+								{
+									"key": "apiDefinitionName"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"code\": 1234567,\n \"message\": \"Resource cannot be found\",\n \"details\": [\n  {\n   \"description\": \"App component `foo` could not be found\"\n  },\n  {\n   \"description\": \"App component `foo` could not be found\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Successfully uploaded the OAI spec and updated the specified API Definition resource.",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/metadata not found in the api spec\"\n    },\n    \"desiredState\": {\n        \"spec\": \"<object>\"\n    },\n    \"currentStatus\": {\n        \"state\": {\n            \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/currentStatus/properties/state not found in the api spec\"\n        },\n        \"spec\": \"<object>\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/services/api-definitions/:apiDefinitionName/oas-config",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"services",
+								"api-definitions",
+								":apiDefinitionName",
+								"oas-config"
+							],
+							"variable": [
+								{
+									"key": "apiDefinitionName"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"metadata\": {\n  \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/metadata not found in the api spec\"\n },\n \"desiredState\": {\n  \"spec\": \"<object>\"\n },\n \"currentStatus\": {\n  \"state\": {\n   \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/currentStatus/properties/state not found in the api spec\"\n  },\n  \"spec\": \"<object>\"\n }\n}"
+				},
+				{
+					"name": "Successfully uploaded the OAI spec and created the requested API Definition resource.",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/metadata not found in the api spec\"\n    },\n    \"desiredState\": {\n        \"spec\": \"<object>\"\n    },\n    \"currentStatus\": {\n        \"state\": {\n            \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/currentStatus/properties/state not found in the api spec\"\n        },\n        \"spec\": \"<object>\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/services/api-definitions/:apiDefinitionName/oas-config",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"services",
+								"api-definitions",
+								":apiDefinitionName",
+								"oas-config"
+							],
+							"variable": [
+								{
+									"key": "apiDefinitionName"
+								}
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"metadata\": {\n  \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/metadata not found in the api spec\"\n },\n \"desiredState\": {\n  \"spec\": \"<object>\"\n },\n \"currentStatus\": {\n  \"state\": {\n   \"value\": \"reference #/paths/~1services~1api-definitions~1%7BapiDefinitionName%7D/put/requestBody/content/application~1json/schema/properties/currentStatus/properties/state not found in the api spec\"\n  },\n  \"spec\": \"<object>\"\n }\n}"
+				}
+			]
+		},
+		{
+			"name": "Transfer Money - No Auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\":\"77\",\"account\":\"2075894\",\"currency\":\"EUR\",\"friend\":\"Alfredo\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{external_api_ip}}/api/rest/execute_money_transfer.php",
+					"protocol": "https",
+					"host": [
+						"{{external_api_ip}}"
+					],
+					"path": [
+						"api",
+						"rest",
+						"execute_money_transfer.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer Money - With Auth",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apikey",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\":\"77\",\"account\":\"2075894\",\"currency\":\"EUR\",\"friend\":\"Alfredo\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{external_api_ip}}/api/rest/execute_money_transfer.php",
+					"protocol": "https",
+					"host": [
+						"{{external_api_ip}}"
+					],
+					"path": [
+						"api",
+						"rest",
+						"execute_money_transfer.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

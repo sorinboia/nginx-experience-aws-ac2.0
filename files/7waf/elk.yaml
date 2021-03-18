@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elk
+  template:
+    metadata:
+      labels:
+        app: elk
+    spec:
+      containers:
+        - name: elk
+          image: sorinboia/elk:v1
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "300Mi"
+          ports:
+            - containerPort: 5601
+            - containerPort: 9200
+            - containerPort: 5044
+            - containerPort: 5144
+
+      initContainers:
+        - name: increase-vm-max-map
+          image: busybox
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: elk-web
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5601
+      targetPort: 5601
+      protocol: TCP
+      name: kibana
+    - port: 9200
+      targetPort: 9200
+      protocol: TCP
+      name: elasticsearch
+    - port: 5044
+      targetPort: 5044
+      protocol: TCP
+      name: logstash
+  selector:
+    app: elk
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: elk-log
+spec:
+  ports:
+    - port: 5144
+      targetPort: 5144
+      protocol: TCP
+      name: filebeat
+  selector:
+    app: elk

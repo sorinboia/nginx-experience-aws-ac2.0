@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginxwaf-config
+data:
+  protect.conf: |
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+        sendfile        on;
+        keepalive_timeout  65;
+
+        server {
+            listen       80;
+            server_name  localhost;
+            proxy_http_version 1.1;
+
+            app_protect_enable on;
+            app_protect_security_log_enable on;
+            app_protect_policy_file "/etc/nginx/waf/waf-policy.json";
+            app_protect_security_log "/etc/nginx/log-default.json" syslog:server=elk-log:5144;
+
+            location / {
+
+                client_max_body_size 0;
+                default_type text/html;
+                proxy_pass http://127.0.0.1:8080$request_uri;
+            }
+        }
+    }
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: nginx-waf
+data:
+    waf-policy.json: |
+      {
+          "name": "nginx-policy",
+          "template": { "name": "POLICY_TEMPLATE_NGINX_BASE" },
+          "applicationLanguage": "utf-8",
+          "enforcementMode": "blocking",
+          "signature-sets": [
+          {
+              "name": "All Signatures",
+              "block": false,
+              "alarm": true
+          },
+          {
+              "name": "High Accuracy Signatures",
+              "block": true,
+              "alarm": true
+          }
+      ],
+          "blocking-settings": {
+          "violations": [
+              {
+                  "name": "VIOL_RATING_NEED_EXAMINATION",
+                  "alarm": true,
+                  "block": true
+              },
+              {
+                  "name": "VIOL_HTTP_PROTOCOL",
+                  "alarm": true,
+                  "block": true,
+                  "learn": true
+              },
+              {
+                  "name": "VIOL_FILETYPE",
+                  "alarm": true,
+                  "block": true,
+                  "learn": true
+              },
+              {
+                  "name": "VIOL_COOKIE_MALFORMED",
+                  "alarm": true,
+                  "block": false,
+                  "learn": false
+              }
+          ],
+              "http-protocols": [{
+              "description": "Body in GET or HEAD requests",
+              "enabled": true,
+              "learn": true,
+              "maxHeaders": 20,
+              "maxParams": 500
+          }],
+              "filetypes": [
+              {
+                  "name": "*",
+                  "type": "wildcard",
+                  "allowed": true,
+                  "responseCheck": true
+              }
+          ],
+              "data-guard": {
+              "enabled": true,
+                  "maskData": true,
+                  "creditCardNumbers": true,
+                  "usSocialSecurityNumbers": true
+          },
+          "cookies": [
+              {
+                  "name": "*",
+                  "type": "wildcard",
+                  "accessibleOnlyThroughTheHttpProtocol": true,
+                  "attackSignaturesCheck": true,
+                  "insertSameSiteAttribute": "strict"
+              }
+          ],
+              "evasions": [{
+              "description": "%u decoding",
+              "enabled": true,
+              "learn": false,
+              "maxDecodingPasses": 2
+          }]}
+      }
