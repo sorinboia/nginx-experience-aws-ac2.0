@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcadia-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: arcadia-frontend
+  template:
+    metadata:
+      labels:
+        app: arcadia-frontend
+    spec:
+      containers:
+        - name: arcadia-frontend
+          image: sorinboia/arcadia-frontend:v0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcadia-login
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: arcadia-login
+  template:
+    metadata:
+      labels:
+        app: arcadia-login
+    spec:
+      containers:
+        - name: arcadia-login
+          image: sorinboia/arcadia-login:v0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcadia-stock-transaction
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: arcadia-stock-transaction
+  template:
+    metadata:
+      labels:
+        app: arcadia-stock-transaction
+    spec:
+      containers:
+        - name: arcadia-stock-transaction
+          image: sorinboia/arcadia-stock_transaction:v0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcadia-stocks
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: arcadia-stocks
+  template:
+    metadata:
+      labels:
+        app: arcadia-stocks
+    spec:
+      containers:
+        - name: arcadia-stocks
+          image: sorinboia/arcadia-stocks:v0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcadia-users
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: arcadia-users
+  template:
+    metadata:
+      labels:
+        app: arcadia-users
+    spec:
+      containers:
+        - name: arcadia-users
+          image: sorinboia/arcadia-users:v0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

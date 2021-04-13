@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcadia-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: arcadia-frontend
+  template:
+    metadata:
+      labels:
+        app: arcadia-frontend
+    spec:
+      containers:
+        - name: arcadia-frontend
+          image: sorinboia/arcadia-frontend:oktav0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jwk-secret
+type: nginx.org/jwk
+data:
+  jwk: eyJrZXlzIjpbeyJrdHkiOiJSU0EiLCJhbGciOiJSUzI1NiIsImtpZCI6IlJKSEtrSWFBbkcwaGFWU3pqTWd6RHFlWEh4ajdkdUpfS0xkYUxxTnU3WUkiLCJ1c2UiOiJzaWciLCJlIjoiQVFBQiIsIm4iOiJoZ3hHTjJxM2RlQzZGcXBweTFySzRjMW5wX1JnMDBDMnpIVUlNdGlBbnJVc1VaVnlENWJjdHhybGF6dzF6ZTBHVkhYUkVCOXJyTnN0ZFJGM1NTU2VIajBjMGw4NE01ZWNqSHlBMzl5UnMtUkVtejdmeTRUWXBBeUpXakg0d0RmbTFfV2pvM1VUS3BiNGRDZ0xLU1RhRy1fUmVFOEl0Q0VhM0lLa1hZdTFtQ1h5QWFGVDYwaWoxV3Y3TUJGWnpKUmYxV0hSOEp6eDhhd2Roc0JlZ1lGR2J6Q0Z0V0prYUVNU2tDV1piRTJSOTkzWV9qc1dLRVJiWlpyM2pkRElMX0txNkJ6S3RDYXJDckMwbHB2SDdnUFVDSXlYUWNpUE9ZY2NxaXQ2R3NBLThlRnpjSkk2dkpRM3VvRXA5ZDJGSmVTUmFrSnNMZDNhcS1odVh5N3ZjZ1k2MHcifV19
+
+---
+
+apiVersion: k8s.nginx.org/v1
+kind: Policy
+metadata:
+  name: jwt-policy
+spec:
+  jwt:
+    realm: apis
+    secret: jwk-secret
+
+---
+
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  host: ab802355064ce4becb948b583e3a4493-677972090.eu-central-1.elb.amazonaws.com
+  tls:
+    secret: arcadia-wildcard
+    redirect:
+      enable: true # Always redirect to https if incoming request is http
+  upstreams:
+    - name: arcadia-users
+      service: arcadia-users
+      port: 80
+    - name: arcadia-login
+      service: arcadia-login
+      port: 80
+    - name: arcadia-stocks
+      service: arcadia-stocks
+      port: 80
+    - name: arcadia-stock-transaction
+      service: arcadia-stock-transaction
+      port: 80
+    - name: arcadia-frontend
+      service: arcadia-frontend
+      port: 80
+  routes:
+    - path: /v1/user
+      location-snippets: |
+        opentracing_propagate_context;
+        opentracing_operation_name "nginx-ingress";
+      policies:
+        - name: jwt-policy
+      action:
+        proxy:
+          upstream: arcadia-users
+          requestHeaders:
+            set:
+              - name: okta-user
+                value: ${jwt_claim_email}
+    - path: /v1/login
+      location-snippets: |
+        opentracing_propagate_context;
+        opentracing_operation_name "nginx-ingress";
+      action:
+        pass: arcadia-login
+    - path: /v1/stock
+      location-snippets: |
+        opentracing_propagate_context;
+        opentracing_operation_name "nginx-ingress";
+      action:
+        pass: arcadia-stocks
+    - path: /v1/stockt
+      location-snippets: |
+        opentracing_propagate_context;
+        opentracing_operation_name "nginx-ingress";
+      policies:
+        - name: jwt-policy
+      action:
+        proxy:
+          upstream: arcadia-stock-transaction
+          requestHeaders:
+            set:
+              - name: okta-user
+                value: ${jwt_claim_email}
+    - path: /
+      location-snippets: |
+        opentracing_propagate_context;
+        opentracing_operation_name "nginx-ingress";
+      action:
+        pass: arcadia-frontend

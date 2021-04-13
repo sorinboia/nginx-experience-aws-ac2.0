@@ -42,9 +42,14 @@ variable "key_name" {
   default = "NGINX"
   type    = string
 }
-
+/*
 variable "key_path" {
   default = "~/eks.key.pub"
   type    = string
 }
 
+resource "aws_key_pair" "main" {
+  key_name   = "kp${var.key_name}-${random_id.random-string.dec}"
+  public_key = file(var.key_path)
+}
+*/

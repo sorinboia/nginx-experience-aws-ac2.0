@@ -1,3 +1,4 @@
+
 resource "aws_iam_role" "demo-master" {
   name = "nginx-eks-cluster-${random_id.random-string.dec}"
   assume_role_policy = <<POLICY

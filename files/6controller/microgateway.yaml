@@ -14,42 +14,17 @@ spec:
         app: microgateway
     spec:
       containers:
-        - name: microgateway1
-          image: sorinboia/ngtest:3.4
-          #imagePullPolicy: Always
+        - name: microgateway
+          image: sorinboia/arcadia-microgateway:v1
+          imagePullPolicy: Always
           env:
-            - name: API_KEY
-              value: ab0c6fccdc753fadeffc13adfe634a27
-            - name: CTRL_HOST
-              value: 35.156.160.99
-            - name: HOSTNAME
-              value: microgateway1
+            - name: ENV_CONTROLLER_API_URL
+              value: https://3.66.17.91:8443/1.4
+            - name: ENV_CONTROLLER_API_KEY
+              value: 574a4e75d72b085b488efc340b452c57
           ports:
             - containerPort: 80
-          readinessProbe:
-            exec:
-              command:
-                - curl
-                - 127.0.0.1:49151/api
-            initialDelaySeconds: 5
-            periodSeconds: 5
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-spec:
-  selector:
-    app: microgateway
-  ports:
-    - port: 80
-      targetPort: 80
-      name: http
-    - port: 443
-      targetPort: 443
-      name: https
+            - containerPort: 443
 
 ---
 

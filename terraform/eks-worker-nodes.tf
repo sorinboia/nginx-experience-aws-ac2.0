@@ -1,3 +1,4 @@
+
 resource "aws_iam_role" "demo-node" {
   name = "nginx-eks-demo-node-${random_id.random-string.dec}"
   assume_role_policy = <<POLICY
@@ -38,16 +39,18 @@ resource "aws_eks_node_group" "demo" {
   subnet_ids      = [aws_subnet.public-subnet.id,aws_subnet.private-subnet.id]
   instance_types = ["t3.xlarge"]
 
+  /*
   remote_access {
     ec2_ssh_key = aws_key_pair.main.id
     source_security_group_ids = [aws_security_group.sgweb.id]
   }
+  */
 
 
   scaling_config {
-    desired_size = 2
+    desired_size = 1
     max_size     = 4
-    min_size     = 2
+    min_size     = 1
   }
 
   tags = {

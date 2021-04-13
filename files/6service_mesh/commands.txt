@@ -1,0 +1,1 @@
+curl http://arcadia-users/v1/user_i/c29yaW5AbmdpbnguY29t

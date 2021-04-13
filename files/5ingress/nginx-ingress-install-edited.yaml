@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-ingress
+  namespace: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-ingress
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress
+        #annotations:
+        #prometheus.io/scrape: "true"
+        #prometheus.io/port: "9113"
+    spec:
+      serviceAccountName: nginx-ingress
+      containers:
+        - image: sorinboia/nginx-plus-ingress:1.10.1
+          imagePullPolicy: Always
+          name: nginx-plus-ingress
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+            - name: readiness-port
+              containerPort: 8081
+            #- name: prometheus
+            #containerPort: 9113
+          readinessProbe:
+            httpGet:
+              path: /nginx-ready
+              port: readiness-port
+            periodSeconds: 1
+          securityContext:
+            allowPrivilegeEscalation: true
+            runAsUser: 101 #nginx
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          args:
+            - -nginx-plus
+            - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
+            - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
+            - -enable-preview-policies
+            - -enable-snippets
+            - -nginx-status-allow-cidrs=0.0.0.0/0
+            #- -enable-app-protect
+            #- -v=3 # Enables extensive logging. Useful for troubleshooting.
+            #- -report-ingress-status
+            #- -external-service=nginx-ingress
+            #- -enable-prometheus-metrics
+            #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+  namespace: nginx-ingress
+data:
+  proxy-protocol: "True"
+  real-ip-header: "proxy_protocol"
+  set-real-ip-from: "0.0.0.0/0"
+  stream-snippets: |
+    resolver 172.20.0.10 valid=5s;
+    server {
+        listen 12345;
+        zone_sync;
+        zone_sync_server nginx-ingress-headless.nginx-ingress.svc.cluster.local:12345 resolve;
+    }
+  resolver-addresses: 172.20.0.10
+  resolver-valid: 5s
+  opentracing: "True"
+  opentracing-tracer: "/usr/local/lib/libzipkin_opentracing_plugin.so"
+  opentracing-tracer-config: |
+    {
+      "service_name": "nginx-ingress",
+      "collector_host": "zipkin.nginx-mesh.svc.cluster.local",
+      "collector_port": 9411,
+      "sample_rate": 1
+    }

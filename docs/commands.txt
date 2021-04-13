@@ -1,0 +1,7 @@
+This command will run the file that will install the ingress.
+./files/ingress_install.sh
+
+
+
+Test that MTLS is working
+ curl -k https://ab802355064ce4becb948b583e3a4493-677972090.eu-central-1.elb.amazonaws.com/ --cert ./client-cert.pem --key ./client-key.pem
