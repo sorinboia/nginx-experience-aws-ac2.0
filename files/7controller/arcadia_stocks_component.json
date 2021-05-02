@@ -52,7 +52,7 @@
       "rateLimits": {
         "policy_1": {
           "rate": "5r/m",
-          "burstBeforeReject": 0,
+          "burstBeforeReject": 4,
           "statusCode": 429,
           "key": "$http_apikey"
         }
