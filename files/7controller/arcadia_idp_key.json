@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "metadata": {
+        "name": "testclient"
+      },
+      "desiredState": {
+        "credential": {
+          "apiKey": "0123456789",
+          "type": "API_KEY"
+        }
+      }
+    }
+  ]
+}

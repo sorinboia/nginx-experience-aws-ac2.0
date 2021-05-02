@@ -1,0 +1,16 @@
+{
+  "metadata": {
+    "name": "apikey",
+    "tags": []
+  },
+  "desiredState": {
+    "environmentRefs": [
+      {
+        "ref": "/services/environments/prod"
+      }
+    ],
+    "identityProvider": {
+      "type": "API_KEY"
+    }
+  }
+}

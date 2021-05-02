@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "name": "arcadia-stocks",
+    "tags": []
+  },
+  "desiredState": {
+    "backend": {
+      "ntlmAuthentication": "DISABLED",
+      "preserveHostHeader": "DISABLED",
+      "workloadGroups": {
+        "arcadia-stocks": {
+          "loadBalancingMethod": {
+            "type": "ROUND_ROBIN"
+          },
+          "uris": {
+            "http://arcadia-stocks": {
+              "isBackup": false,
+              "isDown": false,
+              "isDrain": false
+            }
+          }
+        }
+      }
+    },
+    "ingress": {
+      "gatewayRefs": [
+        {
+          "ref": "/services/environments/prod/gateways/api.arcadia.aws.cloud"
+        }
+      ],
+      "uris": {
+        "/v1/stock/candles/{symbol}": {
+          "matchMethod": "EXACT"
+        },
+        "/v1/stock/ticker/{symbol}": {
+          "matchMethod": "EXACT"
+        }
+      }
+    },
+    "logging": {
+      "accessLog": {
+        "state": "ENABLED"
+      },
+      "errorLog": "ENABLED"
+    },
+    "publishedApiRefs": [
+      {
+        "ref": "/services/environments/prod/apps/arcadia-api/published-apis/arcadia-api-pub"
+      }
+    ],
+    "security": {
+      "rateLimits": {
+        "policy_1": {
+          "rate": "5r/m",
+          "burstBeforeReject": 0,
+          "statusCode": 429,
+          "key": "$http_apikey"
+        }
+      },
+      "identityProviderRefs": [
+        {
+          "ref": "/security/identity-providers/apikey"
+        }
+      ],
+      "apiKeyClientAuth": {
+        "keyLocation": "HEADER",
+        "key": "apikey"
+      },
+      "strategyRef": {
+        "ref": "/services/strategies/balanced_default"
+      },
+      "waf": {
+        "isEnabled": false,
+        "isMonitorOnly": false,
+        "signatureOverrides": {}
+      }
+    }
+  }
+}

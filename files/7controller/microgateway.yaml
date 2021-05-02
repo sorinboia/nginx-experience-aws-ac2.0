@@ -19,9 +19,9 @@ spec:
           imagePullPolicy: Always
           env:
             - name: ENV_CONTROLLER_API_URL
-              value: https://3.66.17.91:8443/1.4
+              value: https://$controller_ip:8443/1.4
             - name: ENV_CONTROLLER_API_KEY
-              value: 574a4e75d72b085b488efc340b452c57
+              value: $controller_apikey
           ports:
             - containerPort: 80
             - containerPort: 443

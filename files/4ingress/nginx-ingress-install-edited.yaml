@@ -12,13 +12,14 @@ spec:
     metadata:
       labels:
         app: nginx-ingress
-        #annotations:
+      annotations:
+        #nsm.nginx.com/enable-egress: "true"
         #prometheus.io/scrape: "true"
         #prometheus.io/port: "9113"
     spec:
       serviceAccountName: nginx-ingress
       containers:
-        - image: sorinboia/nginx-plus-ingress:1.10.1
+        - image: sorinboia/nginx-plus-ingress:1.11.1
           imagePullPolicy: Always
           name: nginx-plus-ingress
           ports:
@@ -58,8 +59,8 @@ spec:
             - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
             - -enable-preview-policies
             - -enable-snippets
+            - -enable-app-protect
             - -nginx-status-allow-cidrs=0.0.0.0/0
-            #- -enable-app-protect
             #- -v=3 # Enables extensive logging. Useful for troubleshooting.
             #- -report-ingress-status
             #- -external-service=nginx-ingress

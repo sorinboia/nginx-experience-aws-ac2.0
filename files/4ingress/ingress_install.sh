@@ -3,7 +3,7 @@ echo "Starting Nginx Ingress Install"
 rm -rf kubernetes-ingress
 git clone https://github.com/nginxinc/kubernetes-ingress/
 cd kubernetes-ingress/deployments
-git checkout v1.10.1
+git checkout v1.11.1
 
 kubectl apply -f common/ns-and-sa.yaml
 kubectl apply -f rbac/rbac.yaml
@@ -27,7 +27,7 @@ kubectl apply -f service/loadbalancer-aws-elb.yaml
 
 cd ../..
 
-kubectl apply -f files/5ingress/nginx-ingress-install-edited.yaml
+kubectl apply -f files/4ingress/nginx-ingress-install-edited.yaml
 echo "Install finished"
 
 

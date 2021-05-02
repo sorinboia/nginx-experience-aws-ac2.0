@@ -1,3 +1,12 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: arcadia-users-sa
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: arcadia-login-sa
 ---
 apiVersion: specs.smi-spec.io/v1alpha3
 kind: HTTPRouteGroup
@@ -26,18 +35,6 @@ spec:
   sources:
     - kind: ServiceAccount
       name: arcadia-login-sa
----
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: arcadia-users-sa
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: arcadia-login-sa
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "name": "arcadia-api-pub",
+    "tags": []
+  },
+  "desiredState": {
+    "apiDefinitionVersionRef": {
+      "ref": "/services/api-definitions/arcadia-api/versions/1.0.0"
+    },
+    "gatewayRefs": [
+      {
+        "ref": "/services/environments/prod/gateways/api.arcadia.aws.cloud"
+      }
+    ],
+    "devportalRefs": []
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "metadata": {
+    "name": "1.0.0",
+    "displayName": "Arcadia Crypto API",
+    "description": "Arcadia Crypto API"
+  },
+  "desiredState": {
+    "specs": {
+      "REST": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "Arcadia Crypto API",
+          "description": "Arcadia Crypto API",
+          "contact": {
+            "email": "you@your-company.com"
+          },
+          "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+          },
+          "version": "1.0.0"
+        },
+        "paths": {
+		  "/v1/login/deviceid": {
+            "x-controller-match-method": "EXACT",
+            "get": {
+              "summary": "Check user device id",
+              "description": "Check user device id",
+              "responses": {
+                "200": {
+                  "description": "Return device id status",
+                  "content": {
+                    "application/json": {}
+                  }
+                }
+              }
+            }
+          },
+          "/v1/user/{accountId}": {
+            "x-controller-match-method": "EXACT",
+            "get": {
+              "summary": "Get user info",
+              "description": "Get user information",
+              "parameters": [
+                {
+                  "name": "accountId",
+                  "description": "Account ID to get info",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "number"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Return login status",
+                  "content": {
+                    "application/json": {}
+                  }
+                }
+              }
+            }
+          },
+          "/v1/user/email/{email}": {
+            "x-controller-match-method": "EXACT",
+            "get": {
+              "summary": "Get account ID from email",
+              "description": "Get account ID from email",
+              "parameters": [
+                {
+                  "name": "email",
+                  "description": "email",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Returns account id",
+                  "content": {
+                    "application/json": {}
+                  }
+                }
+              }
+            }
+          },
+          "/v1/stockt/transactions/{accountId}": {
+            "x-controller-match-method": "EXACT",
+            "get": {
+              "summary": "Get account ID from email",
+              "description": "Get account ID from email",
+              "parameters": [
+                {
+                  "name": "accountId",
+                  "description": "Account Id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Returns all transactions for an account id",
+                  "content": {
+                    "application/json": {}
+                  }
+                }
+              }
+            }
+          },
+          "/v1/stockt": {
+            "x-controller-match-method": "EXACT",
+            "post": {
+              "summary": "Buy/Sell crypto currency",
+              "description": "Buy/Sell crypto currency",
+              "requestBody": {
+                "description": "Create new user",
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "required": [
+                        "amount",
+                        "symbol",
+                        "transactionType"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "symbol": {
+                          "type": "string",
+                          "example": "BTC"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 2.1
+                        },
+                        "transactionType": {
+                          "type": "string",
+                          "example": "buy"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Transaction Status",
+                  "content": {
+                    "application/json": {}
+                  }
+                }
+              }
+            }
+          },
+          "/v1/stock/ticker/{symbol}": {
+            "x-controller-match-method": "EXACT",
+            "get": {
+              "summary": "Get tiker information for crypto currencies",
+              "description": "Get tiker information for crypto currencies",
+              "parameters": [
+                {
+                  "name": "symbol",
+                  "description": "Symbol [all,btc,ltc,eth]",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Returns ticker info",
+                  "content": {
+                    "application/json": {}
+                  }
+                }
+              }
+            }
+          },
+          "/v1/stock/candles/{symbol}": {
+            "x-controller-match-method": "EXACT",
+            "get": {
+              "summary": "Get candles information for crypto currencies",
+              "description": "Get candles information for crypto currencies",
+              "parameters": [
+                {
+                  "name": "symbol",
+                  "description": "Symbol [all,btc,ltc,eth]",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Returns candles info",
+                  "content": {
+                    "application/json": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
