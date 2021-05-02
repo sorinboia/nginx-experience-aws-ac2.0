@@ -64,8 +64,8 @@ Resources:
    Properties:
      Name: !Sub ideNGINX-${RandomStringResource.RandomString}
      Repositories:
-       - PathComponent: /labs
-         RepositoryUrl: https://github.com/ArtiomL/aws-labs.git
+       - PathComponent: /lab
+         RepositoryUrl: https://github.com/sorinboia/nginx-experience-aws-ac2.0.git
      InstanceType: t3.small
      AutomaticStopTimeMinutes: 60
  rIAMRole:
