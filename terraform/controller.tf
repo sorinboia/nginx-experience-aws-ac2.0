@@ -69,8 +69,7 @@ resource "aws_instance" "controller" {
   availability_zone           = var.aws_az
   subnet_id                   = aws_subnet.public-subnet.id
   vpc_security_group_ids      = [aws_security_group.sgweb.id]
-  #key_name                    = aws_key_pair.main.id
-  key_name = "sorin_key"
+  key_name                    = aws_key_pair.main.id
 
   user_data = <<-EOF
       #!/bin/bash
