@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: microgateway
-          image: sorinboia/arcadia-microgateway:v1
+          image: DOCKER_REGISTRY/arcadia-microgateway:v1
           imagePullPolicy: Always
           env:
             - name: ENV_CONTROLLER_API_URL
