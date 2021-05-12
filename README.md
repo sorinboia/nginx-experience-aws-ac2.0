@@ -1,11 +1,3 @@
-
-# WORK IN PROGRESS
-
-
-
-
-
-
 This Repo is used for:
 ## Welcome to AWS NGINX Meetup – From Application code to Customers
 
