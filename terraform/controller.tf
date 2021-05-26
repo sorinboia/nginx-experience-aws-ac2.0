@@ -61,7 +61,7 @@ EOF
 resource "aws_instance" "controller" {
   ami                  = "ami-09356619876445425"
   #iam_instance_profile = aws_iam_instance_profile.iam_nginx_profile.id
-  instance_type        = "t2.2xlarge"
+  instance_type        = "t3.2xlarge"
   root_block_device {
     volume_size = "80"
   }
