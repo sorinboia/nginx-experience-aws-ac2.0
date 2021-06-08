@@ -7,15 +7,15 @@ variable "user_id" {
 }
 
 variable "aws_region" {
-  default = "eu-central-1"
+  default = "eu-west-1"
 }
 
 variable "aws_az" {
-  default = "eu-central-1a"
+  default = "eu-west-1a"
 }
 
 variable "aws_az1" {
-  default = "eu-central-1b"
+  default = "eu-west-1b"
 }
 
 variable "management_subnet_cidr" {
