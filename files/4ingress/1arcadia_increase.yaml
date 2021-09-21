@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: arcadia-frontend
-          image: sorinboia/arcadia-frontend:v0.1
+          image: sorinboiaf5/arcadia-frontend:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
         - name: arcadia-login
-          image: sorinboia/arcadia-login:v0.1
+          image: sorinboiaf5/arcadia-login:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
         - name: arcadia-stock-transaction
-          image: sorinboia/arcadia-stock_transaction:v0.1
+          image: sorinboiaf5/arcadia-stock_transaction:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -79,7 +79,7 @@ spec:
     spec:
       containers:
         - name: arcadia-stocks
-          image: sorinboia/arcadia-stocks:v0.1
+          image: sorinboiaf5/arcadia-stocks:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
         - name: arcadia-users
-          image: sorinboia/arcadia-users:v0.1
+          image: sorinboiaf5/arcadia-users:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
