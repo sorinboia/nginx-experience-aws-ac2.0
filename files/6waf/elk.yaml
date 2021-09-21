@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: elk
-          image: sorinboia/elk:v1
+          image: sorinboiaf5/elk:v1
           imagePullPolicy: Always
           resources:
             requests:
