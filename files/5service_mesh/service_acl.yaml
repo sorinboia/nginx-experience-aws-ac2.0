@@ -53,7 +53,7 @@ spec:
       serviceAccountName: arcadia-users-sa
       containers:
         - name: arcadia-users
-          image: sorinboia/arcadia-users:v0.1
+          image: sorinboiaf5/arcadia-users:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -75,7 +75,7 @@ spec:
       serviceAccountName: arcadia-login-sa
       containers:
         - name: arcadia-login
-          image: sorinboia/arcadia-login:v0.1
+          image: sorinboiaf5/arcadia-login:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80

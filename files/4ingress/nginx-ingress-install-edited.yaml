@@ -19,7 +19,7 @@ spec:
     spec:
       serviceAccountName: nginx-ingress
       containers:
-        - image: sorinboia/nginx-plus-ingress:1.11.1
+        - image: sorinboiaf5/nginx-plus-ingress:1.11.1
           imagePullPolicy: Always
           name: nginx-plus-ingress
           ports:
