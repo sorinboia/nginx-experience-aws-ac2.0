@@ -31,7 +31,7 @@ resource "aws_iam_role_policy_attachment" "demo-cluster-AmazonEKSServicePolicy" 
 resource "aws_eks_cluster" "demo" {
   name            = "${var.cluster-name}-${random_id.random-string.dec}"
   role_arn        = aws_iam_role.demo-master.arn
-  version = "1.20.15"
+  version = "1.20"
   tags = {
     Nginx = "nginx experience ${random_id.random-string.dec}"
   }
