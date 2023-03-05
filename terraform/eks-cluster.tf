@@ -46,3 +46,9 @@ resource "aws_eks_cluster" "demo" {
     aws_iam_role_policy_attachment.demo-cluster-AmazonEKSServicePolicy,
   ]
 }
+
+resource "null_resource" "kubectl" {
+    provisioner "local-exec" {
+        command = "aws eks --region ${var.aws_region} update-kubeconfig --name ${aws_eks_cluster.demo.name}"
+    }
+}
