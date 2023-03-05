@@ -1,0 +1,33 @@
+controller:
+  nginxplus: true
+  appprotect:
+    enable: true
+  image:
+    repository: DOCKER_REGISTRY/nginx-plus-ingress:3.0.2
+  enableSnippets: true
+  enableOIDC: true
+  nginxStatus:
+    allowCidrs: 0.0.0.0/0
+  config:
+    entries:
+      proxy-protocol: "True"
+      real-ip-header: "proxy_protocol"
+      set-real-ip-from: "0.0.0.0/0"
+      stream-snippets: |
+        resolver 172.20.0.10 valid=5s;
+        server {
+            listen 12345;
+            zone_sync;
+            zone_sync_server nginx-ingress-headless.nginx-ingress.svc.cluster.local:12345 resolve;
+        }
+      resolver-addresses: 172.20.0.10
+      resolver-valid: 5s
+      opentracing: "True"
+      opentracing-tracer: "/usr/local/lib/libzipkin_opentracing_plugin.so"
+      opentracing-tracer-config: |
+        {
+          "service_name": "nginx-ingress",
+          "collector_host": "zipkin.nginx-mesh.svc.cluster.local",
+          "collector_port": 9411,
+          "sample_rate": 1
+        }
