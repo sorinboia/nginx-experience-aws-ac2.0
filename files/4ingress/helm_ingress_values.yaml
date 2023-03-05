@@ -3,18 +3,16 @@ controller:
   appprotect:
     enable: true
   image:
-    repository: DOCKER_REGISTRY/nginx-plus-ingress:3.0.2
+    repository: DOCKER_REGISTRY/nginx-plus-ingress
+    tag: 3.0.2
   enableSnippets: true
   enableOIDC: true
   nginxStatus:
     allowCidrs: 0.0.0.0/0
   config:
     entries:
-      proxy-protocol: "True"
-      real-ip-header: "proxy_protocol"
-      set-real-ip-from: "0.0.0.0/0"
-      stream-snippets: |
-        resolver 172.20.0.10 valid=5s;
+      opentracing: True
+      stream-snippets: |        
         server {
             listen 12345;
             zone_sync;
