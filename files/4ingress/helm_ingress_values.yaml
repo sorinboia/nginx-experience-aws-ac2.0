@@ -1,4 +1,6 @@
 controller:
+  service:
+    name: nginx-ingress
   nginxplus: true
   appprotect:
     enable: true
